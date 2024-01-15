@@ -90,7 +90,11 @@ router.post("/login", async (req, res) => {
                 // cookiegenerate
                 res.cookie("usercookie",token,{
                     expires:new Date(Date.now()+9000000),
-                    httpOnly:true
+                    httpOnly:true,
+                    SameSite:"None",
+                    secure:true,
+                    path:"/",
+                    domain:origin
                 });
 
                 const result = {
@@ -169,7 +173,7 @@ router.post("/sendpasswordlink",async(req,res)=>{
                 from:process.env.EMAIL,
                 to:email,
                 subject:"Sending Email For password Reset",
-                text:`This Link Valid For 2 MINUTES http://localhost:3000/forgotpassword/${userfind.id}/${setusertoken.verifytoken}`
+                text:`This Link Valid For 2 MINUTES ${process.env.origin}/forgotpassword/${userfind.id}/${setusertoken.verifytoken}`
             }
 
             transporter.sendMail(mailOptions,(error,info)=>{

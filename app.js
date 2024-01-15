@@ -14,7 +14,13 @@ const port = 8010;
 
 app.use(express.json());
 app.use(cookiParser());
-app.use(cors());
+app.use(cors({
+    origin:process.env.origin,
+    exposedHeaders:'Set-Cookie',
+    allowedHeaders:"Content-Type,Authorization",
+    methods:"GET, PUT, POST, DELETE",
+    credentials:true,
+}));
 app.use(router);
 
 
